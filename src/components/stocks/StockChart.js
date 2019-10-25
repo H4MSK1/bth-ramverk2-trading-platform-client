@@ -49,27 +49,29 @@ const StockChart = ({ stock }) => {
       return;
     }
 
-    const history = stock.history.sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
-    );
-
-    const { price_old, price_new } = history[history.length - 1];
-    setStockDiff({
-      previous: price_old,
-      current: price_new,
-      diff: roundNumber(price_new - price_old),
-      diffPercentage: roundNumber(numberDiffPercentage(price_new, price_old)),
-    });
-
     let dataPoints = [];
-    history.forEach(item => {
-      dataPoints.push({
-        x: formatDateTime(item.createdAt),
-        y: item.price_new,
-      });
-    });
+    if (stock.history.length) {
+      const history = stock.history.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
+      );
 
-    dataPoints[dataPoints.length - 1].x = 'now';
+      const { price_old, price_new } = history[history.length - 1];
+      setStockDiff({
+        previous: price_old,
+        current: price_new,
+        diff: roundNumber(price_new - price_old),
+        diffPercentage: roundNumber(numberDiffPercentage(price_new, price_old)),
+      });
+
+      history.slice(-6).forEach(item => {
+        dataPoints.push({
+          x: formatDateTime(item.createdAt),
+          y: item.price_new,
+        });
+      });
+
+      dataPoints[dataPoints.length - 1].x = 'now';
+    }
 
     window.ApexCharts.exec(chartId, 'updateSeries', [
       {
@@ -95,14 +97,16 @@ const StockChart = ({ stock }) => {
 
   return (
     <>
-      <h6>
-        <b>
-          ({state.currency}) {stockDiff.current}{' '}
-          <span style={{ color: stockDiff.diff < 1 ? 'red' : 'green' }}>
-            {stockDiff.diff} ({stockDiff.diffPercentage}%)
-          </span>
-        </b>
-      </h6>
+      {Object.keys(stockDiff).length && (
+        <h6>
+          <b>
+            ({state.currency}) {stockDiff.current}{' '}
+            <span style={{ color: stockDiff.diff < 1 ? 'red' : 'green' }}>
+              {stockDiff.diff} ({stockDiff.diffPercentage}%)
+            </span>
+          </b>
+        </h6>
+      )}
       <Chart
         options={chartData.options}
         series={chartData.series}
