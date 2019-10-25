@@ -3,11 +3,11 @@ import { Route as BaseRoute, Redirect } from 'react-router-dom';
 import { AppLayout } from 'layouts/AppLayout';
 import { onlyAuth, onlyGuest } from 'api/utils';
 
-export const AppRoute = ({ component: Component, ...rest }) => (
+export const AppRoute = ({ component: Component, title, ...rest }) => (
   <BaseRoute
     {...rest}
     render={props => (
-      <AppLayout>
+      <AppLayout title={title}>
         <Component {...props} />
       </AppLayout>
     )}

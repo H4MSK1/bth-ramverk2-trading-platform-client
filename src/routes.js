@@ -12,13 +12,17 @@ const InvestmentPage = lazy(() => import('pages/InvestmentPage'));
 export default (
   <Suspense fallback={<LoadingPage />}>
     <Switch>
-      <AppRoute path="/" exact component={IndexPage} />
+      <AppRoute path="/" exact component={IndexPage} title="Market" />
 
-      <GuestRoute path="/login" component={LoginPage} />
+      <GuestRoute path="/login" component={LoginPage} title="Login" />
 
-      <GuestRoute path="/register" component={RegisterPage} />
+      <GuestRoute path="/register" component={RegisterPage} title="Sign up" />
 
-      <AuthRoute path="/investments" component={InvestmentPage} />
+      <AuthRoute
+        path="/investments"
+        component={InvestmentPage}
+        title="Investments"
+      />
 
       <AppRoute path="*" component={PageNotFound} />
     </Switch>
