@@ -82,7 +82,12 @@ const Navbar = ({ isOpen = false }) => {
   };
 
   return (
-    <BaseNavbar dark expand="md" className="bg-primary">
+    <BaseNavbar
+      dark
+      expand="md"
+      className="bg-primary fixed-top navbar-shadow"
+      fixed="top"
+    >
       <Container>
         <NavbarBrand tag={ReactRouterNavLink} to="/">
           {process.env.REACT_APP_NAME}
