@@ -1,6 +1,11 @@
 body {
   background-color: $body-bg;
   overflow-y: scroll;
+  margin-top: $navbar-mobile-height + 30;
+
+  @media (min-width: 768px) {
+    margin-top: $navbar-height + 30;
+  }
 }
 
 .app {
@@ -23,15 +28,6 @@ body {
 
   & a {
     color: #fff !important;
-  }
-}
-
-.app-navbar-wrapper {
-  height: $navbar-height;
-  margin-bottom: $navbar-height / 2;
-
-  & > nav {
-    z-index: 1080;
   }
 }
 
@@ -71,4 +67,17 @@ body {
       }
     }
   }
+}
+
+.widget-box {
+  width: 100%;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #fff;
 }
