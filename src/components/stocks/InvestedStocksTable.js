@@ -5,6 +5,7 @@ import { sellStocks } from 'actions/stocks';
 import { formatDateTime } from 'api/utils';
 import { getStateWithDispatcher } from 'providers/StateManagerProvider';
 import StockDialog from './StockDialog';
+import { getUserStocks } from 'actions/user';
 
 const InvestedStocksTable = () => {
   const alert = useAlert();
@@ -22,6 +23,10 @@ const InvestedStocksTable = () => {
       alert.error(err);
     }
   };
+
+  React.useEffect(() => {
+    getUserStocks(dispatch);
+  }, []);
 
   const TableRow = (userStock, index) => (
     <tr key={index}>
