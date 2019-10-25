@@ -1,0 +1,12 @@
+// Theme colors
+$body-bg: #e1e1e1;
+$footer-bg: #343a4c;
+$primary-color: #384fc5;
+$secondary-color: #fff;
+
+// Misc
+$navbar-height: 56px;
+
+// Bootstrap variables override
+$primary: $primary-color !default;
+$font-family-base: "Muli", sans-serif !default;
