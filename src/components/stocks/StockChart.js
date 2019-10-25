@@ -22,7 +22,7 @@ const StockChart = ({ stock }) => {
       },
       yaxis: {
         title: {
-          text: 'Stock Prices',
+          text: `Stock Prices (${state.currency})`,
         },
       },
       xaxis: {
@@ -76,8 +76,13 @@ const StockChart = ({ stock }) => {
           formatter: val => `${val} ${state.currencySymbol}`,
         },
       },
+      yaxis: {
+        title: {
+          text: `Stock Prices (${state.currency})`,
+        },
+      },
     });
-  }, [state.currencySymbol]);
+  }, [state.currency, state.currencySymbol]);
 
   return (
     <Chart
