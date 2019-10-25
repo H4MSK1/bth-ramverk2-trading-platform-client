@@ -70,18 +70,13 @@ export const getCurrencySymbol = currency => {
 export const convert = (amount, from, to) =>
   roundNumber(amount * getRate(from || baseCurrency, to));
 
-export const convertUserBalance = (amount, from, to) =>
-  convert(amount, from, to);
-
-export const convertUserStocksValue = (amount, from, to) =>
-  convert(amount, from, to);
-
 export const convertMarketStocks = (stocks, from, to) =>
   stocks.map(stock => {
     stock.price = convert(stock.price, from, to);
 
     if (stock.history) {
       stock.history = stock.history.map(item => {
+        item.price_old = convert(item.price_old, from, to);
         item.price_new = convert(item.price_new, from, to);
         return item;
       });

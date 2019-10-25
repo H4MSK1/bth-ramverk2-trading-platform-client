@@ -45,7 +45,7 @@ const InvestedStocksTable = () => {
             size="sm"
             onClick={() => setSelectedStock(userStock)}
           >
-            Sell
+            Sell stocks
           </Button>
         )}
       </th>

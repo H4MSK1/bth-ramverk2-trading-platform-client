@@ -3,16 +3,15 @@ import TokenService from './TokenService';
 import AuthService from './AuthService';
 
 const resolveArgument = arg => (typeof arg === 'function' ? arg() : arg);
-export const user = () => AuthService.user();
 export const roundNumber = num => Math.round(num * 1e2) / 1e2;
+export const numberDiffPercentage = (a, b) =>
+  100 * Math.abs((a - b) / ((a + b) / 2));
 
-export const onlyAuth = (next, fallback = null) => {
-  return AuthService.isAuth() ? resolveArgument(next) : fallback;
-};
+export const onlyAuth = (next, fallback = null) =>
+  AuthService.isAuth() ? resolveArgument(next) : fallback;
 
-export const onlyGuest = (next, fallback = null) => {
-  return !AuthService.isAuth() ? resolveArgument(next) : fallback;
-};
+export const onlyGuest = (next, fallback = null) =>
+  !AuthService.isAuth() ? resolveArgument(next) : fallback;
 
 export const checkTokenExpiration = () => {
   if (TokenService.getAccessToken() && TokenService.isTokenExpired()) {
