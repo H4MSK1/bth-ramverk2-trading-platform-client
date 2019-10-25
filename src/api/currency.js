@@ -4,7 +4,7 @@ export const baseCurrency = 'SEK';
 const rates = {
   SEK: 1,
   USD: 0.6,
-  EUR: 0.7,
+  EUR: 0.5,
   GBP: 0.4,
 };
 
@@ -15,14 +15,8 @@ export const currencies = {
   GBP: '£',
 };
 
-export const convertBackToBase = amount =>
-  convert(amount, getCurrency(), baseCurrency);
-
-export const setCurrency = (dispatch, currency) => {
-  const fromCurrency = getCurrency();
+export const setCurrency = (fromCurrency, dispatch, currency) => {
   const symbol = getCurrencySymbol(currency);
-  localStorage.setItem('currency', currency);
-  localStorage.setItem('currency_symbol', symbol);
 
   dispatch({
     type: 'storeSelectedCurrency',
@@ -50,9 +44,6 @@ export const setCurrency = (dispatch, currency) => {
   });
 };
 
-export const getCurrency = () =>
-  localStorage.getItem('currency') || baseCurrency;
-
 const getRate = (from, to) => {
   if (!rates[from] || !rates[to]) {
     throw new Error('currency error');
@@ -69,7 +60,7 @@ const getRate = (from, to) => {
   return rates[to] * (1 / rates[from]);
 };
 
-export const getCurrencySymbol = (currency = getCurrency()) => {
+export const getCurrencySymbol = currency => {
   if (!currencies[currency]) {
     currency = baseCurrency;
   }
@@ -79,25 +70,13 @@ export const getCurrencySymbol = (currency = getCurrency()) => {
 export const convert = (amount, from, to) =>
   roundNumber(amount * getRate(from || baseCurrency, to));
 
-export const convertUserBalance = (
-  amount,
-  from = getCurrency(),
-  to = getCurrency(),
-) => {
-  return convert(amount, from, to);
-};
+export const convertUserBalance = (amount, from, to) =>
+  convert(amount, from, to);
 
-export const convertUserStocksValue = (
-  amount,
-  from = getCurrency(),
-  to = getCurrency(),
-) => convert(amount, from, to);
+export const convertUserStocksValue = (amount, from, to) =>
+  convert(amount, from, to);
 
-export const convertMarketStocks = (
-  stocks,
-  from = getCurrency(),
-  to = getCurrency(),
-) =>
+export const convertMarketStocks = (stocks, from, to) =>
   stocks.map(stock => {
     stock.price = convert(stock.price, from, to);
 
@@ -111,11 +90,7 @@ export const convertMarketStocks = (
     return stock;
   });
 
-export const convertUserStocks = (
-  stocks,
-  from = getCurrency(),
-  to = getCurrency(),
-) =>
+export const convertUserStocks = (stocks, from, to) =>
   stocks.map(stock => {
     stock.stock.price = convert(stock.stock.price, from, to);
     return stock;

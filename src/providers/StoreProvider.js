@@ -1,7 +1,7 @@
 import React from 'react';
 import { StateProvider } from './StateManagerProvider';
 import {
-  getCurrency,
+  baseCurrency,
   getCurrencySymbol,
   convertUserBalance,
   convertUserStocksValue,
@@ -15,12 +15,12 @@ const initialState = {
   userProfit: 0,
   userStocks: [],
   userStocksValue: 0,
-  currency: getCurrency(),
-  currencySymbol: getCurrencySymbol(),
+  currency: baseCurrency,
+  currencySymbol: getCurrencySymbol(baseCurrency),
 };
 
 function reducer(state, action) {
-  const { type, payload, fromCurrency } = action;
+  const { type, payload, fromCurrency = baseCurrency } = action;
 
   switch (type) {
     case 'storeUserBalance':
@@ -29,6 +29,7 @@ function reducer(state, action) {
         userBalance: convertUserBalance(
           payload || state.userBalance,
           fromCurrency,
+          state.currency,
         ),
       };
 
@@ -38,6 +39,7 @@ function reducer(state, action) {
         marketStocks: convertMarketStocks(
           payload || state.marketStocks,
           fromCurrency,
+          state.currency,
         ),
       };
 
@@ -47,6 +49,7 @@ function reducer(state, action) {
         userStocks: convertUserStocks(
           payload || state.userStocks,
           fromCurrency,
+          state.currency,
         ),
       };
 
@@ -56,6 +59,7 @@ function reducer(state, action) {
         userStocksValue: convertUserStocksValue(
           payload || state.userStocksValue,
           fromCurrency,
+          state.currency,
         ),
       };
 

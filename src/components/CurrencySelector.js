@@ -19,7 +19,10 @@ const CurrencySelector = () => {
       </DropdownToggle>
       <DropdownMenu>
         {Object.keys(currencies).map((key, index) => (
-          <DropdownItem key={index} onClick={() => setCurrency(dispatch, key)}>
+          <DropdownItem
+            key={index}
+            onClick={() => setCurrency(state.currency, dispatch, key)}
+          >
             {key}
           </DropdownItem>
         ))}
