@@ -87,6 +87,7 @@ export const convertMarketStocks = (stocks, from, to) =>
 
 export const convertUserStocks = (stocks, from, to) =>
   stocks.map(stock => {
+    stock.price_when_purchased = convert(stock.price_when_purchased, from, to);
     stock.stock.price = convert(stock.stock.price, from, to);
     return stock;
   });
