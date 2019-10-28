@@ -1,17 +1,17 @@
 body {
   background-color: $body-bg;
   overflow-y: scroll;
-  margin-top: $navbar-mobile-height + 30;
-
-  @media (min-width: 768px) {
-    margin-top: $navbar-height + 30;
-  }
 }
 
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  padding-top: $navbar-mobile-height + 30;
+
+  @media (min-width: 768px) {
+    padding-top: $navbar-height + 30;
+  }
 }
 
 .app-main-content {

@@ -9,10 +9,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Button,
 } from 'reactstrap';
 import { NavLinks } from './NavLinks';
@@ -32,44 +28,22 @@ const Navbar = ({ isOpen = false }) => {
       exact = false,
       isGuest = false,
       isAuth = false,
-      children = [],
       onClick = () => {},
     },
     ...props
   }) => {
     const item = (
-      <React.Fragment {...props}>
-        {!children.length ? (
-          <NavItem>
-            <NavLink
-              tag={ReactRouterNavLink}
-              exact={exact}
-              to={to}
-              activeClassName="active"
-              onClick={onClick}
-            >
-              {name}
-            </NavLink>
-          </NavItem>
-        ) : (
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              {name}
-            </DropdownToggle>
-            <DropdownMenu right>
-              {children.map((child, index) => (
-                <DropdownItem
-                  key={index}
-                  tag={ReactRouterNavLink}
-                  to={child.to}
-                >
-                  {child.name}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        )}
-      </React.Fragment>
+      <NavItem {...props}>
+        <NavLink
+          tag={ReactRouterNavLink}
+          exact={exact}
+          to={to}
+          activeClassName="active"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          {name}
+        </NavLink>
+      </NavItem>
     );
 
     if (isAuth) {

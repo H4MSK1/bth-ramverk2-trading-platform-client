@@ -19,14 +19,13 @@ export const AppLayout = ({ children, title }) => {
 
       <footer className="app-footer text-light">
         <DefaultContainer>
-          This site was created with React & Reactstrap.{' '}
           <a
             href={process.env.REACT_APP_GITHUB_REPOSITORY}
             target="_blank"
             rel="noopener noreferrer"
             className="text-light"
           >
-            {process.env.REACT_APP_GITHUB_REPOSITORY}
+            &copy; 2019 Auto Trade
           </a>
         </DefaultContainer>
       </footer>
