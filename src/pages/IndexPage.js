@@ -1,31 +1,25 @@
 import React from 'react';
-import { Jumbotron, Row, Col, Container } from 'reactstrap';
-import { populateGlobalUserState } from 'actions/user';
+import {
+  Jumbotron,
+  Row,
+  Col,
+  Container,
+  ButtonGroup,
+  Button,
+} from 'reactstrap';
 import { getStateWithDispatcher } from 'providers/StateManagerProvider';
 import { onlyAuth } from 'api/utils';
-import useSocketEvents from 'hooks/useSocketEvents';
+import useStockWatchEvent from 'hooks/useStockWatchEvent';
 import MarketStocksTable from 'components/stocks/MarketStocksTable';
 import StockChart from 'components/stocks/StockChart';
 import BalanceWidget from 'components/widgets/BalanceWidget';
 import StockWorthWidget from 'components/widgets/StockWorthWidget';
 
 const IndexPage = () => {
-  const { state, dispatch } = getStateWithDispatcher();
-  const { socket, isSocketReady } = useSocketEvents();
-
-  React.useEffect(() => {
-    if (!isSocketReady) {
-      return;
-    }
-    socket.on('stocks', stocks => {
-      dispatch({
-        type: 'storeMarketStocks',
-        payload: stocks,
-      });
-      populateGlobalUserState(dispatch);
-    });
-  }, [isSocketReady]);
-
+  useStockWatchEvent();
+  const { state } = getStateWithDispatcher();
+  const [gridType, setGridType] = React.useState(1);
+  const toggleChartGrid = () => setGridType(prev => +!prev);
   return (
     <Container>
       <Row>
@@ -45,8 +39,31 @@ const IndexPage = () => {
       </Row>
 
       <Row>
+        <Col xs={12} className="text-right mb-2 d-none d-lg-block">
+          <ButtonGroup>
+            <Button
+              color="primary"
+              size="sm"
+              onClick={toggleChartGrid}
+              disabled={gridType === 1}
+              style={{ width: 65, textAlign: 'center' }}
+            >
+              Grid
+            </Button>
+            <Button
+              color="primary"
+              size="sm"
+              onClick={toggleChartGrid}
+              disabled={gridType === 0}
+              style={{ width: 65, textAlign: 'center' }}
+            >
+              List
+            </Button>
+          </ButtonGroup>
+        </Col>
+
         {state.marketStocks.map((stock, index) => (
-          <Col xs={12} lg={6} key={index}>
+          <Col xs={12} lg={gridType === 1 && 6} key={index}>
             <Jumbotron className="bg-secondary box-shadow">
               <h4>{stock.name}</h4>
               <StockChart stock={stock} />
