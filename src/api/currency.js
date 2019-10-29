@@ -67,8 +67,11 @@ export const getCurrencySymbol = currency => {
   return currencies[currency];
 };
 
-export const convert = (amount, from, to) =>
-  roundNumber(amount * getRate(from || baseCurrency, to));
+export const convert = (amount, from, to) => {
+  return amount > 0
+    ? roundNumber(amount * getRate(from || baseCurrency, to))
+    : 0;
+};
 
 export const convertMarketStocks = (stocks, from, to) =>
   stocks.map(stock => {

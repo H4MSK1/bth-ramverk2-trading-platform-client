@@ -19,6 +19,7 @@ export const NavLinks = [
   {
     to: '/investments',
     name: 'My investments',
+    exact: true,
     isAuth: true,
   },
 ];

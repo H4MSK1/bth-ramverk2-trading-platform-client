@@ -9,12 +9,10 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Button,
 } from 'reactstrap';
 import { NavLinks } from './NavLinks';
 import { onlyAuth, onlyGuest } from 'api/utils';
 import { logout } from 'actions/auth';
-import { updateStocks } from 'actions/stocks';
 import CurrencySelector from 'components/CurrencySelector';
 
 const Navbar = ({ isOpen = false }) => {
@@ -22,14 +20,7 @@ const Navbar = ({ isOpen = false }) => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(state => !state);
 
   const NavItemLink = ({
-    route: {
-      to,
-      name,
-      exact = false,
-      isGuest = false,
-      isAuth = false,
-      onClick = () => {},
-    },
+    route: { to, name, exact = false, isGuest = false, isAuth = false },
     ...props
   }) => {
     const item = (
@@ -84,20 +75,6 @@ const Navbar = ({ isOpen = false }) => {
             <NavItem>
               <NavLink>
                 <CurrencySelector />
-              </NavLink>
-            </NavItem>
-
-            <NavItem>
-              {/* temporary location of this button */}
-              <NavLink>
-                <Button
-                  onClick={updateStocks}
-                  size="sm"
-                  outline
-                  color="warning"
-                >
-                  Update Stocks
-                </Button>
               </NavLink>
             </NavItem>
           </Nav>

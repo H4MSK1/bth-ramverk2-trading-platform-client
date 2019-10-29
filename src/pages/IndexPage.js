@@ -1,14 +1,31 @@
 import React from 'react';
 import { Jumbotron, Row, Col, Container } from 'reactstrap';
-import { onlyAuth } from 'api/utils';
+import { populateGlobalUserState } from 'actions/user';
 import { getStateWithDispatcher } from 'providers/StateManagerProvider';
+import { onlyAuth } from 'api/utils';
+import useSocketEvents from 'hooks/useSocketEvents';
 import MarketStocksTable from 'components/stocks/MarketStocksTable';
 import StockChart from 'components/stocks/StockChart';
 import BalanceWidget from 'components/widgets/BalanceWidget';
 import StockWorthWidget from 'components/widgets/StockWorthWidget';
 
 const IndexPage = () => {
-  const { state } = getStateWithDispatcher();
+  const { state, dispatch } = getStateWithDispatcher();
+  const { socket, isSocketReady } = useSocketEvents();
+
+  React.useEffect(() => {
+    if (!isSocketReady) {
+      return;
+    }
+    socket.on('stocks', stocks => {
+      dispatch({
+        type: 'storeMarketStocks',
+        payload: stocks,
+      });
+      populateGlobalUserState(dispatch);
+    });
+  }, [isSocketReady]);
+
   return (
     <Container>
       <Row>

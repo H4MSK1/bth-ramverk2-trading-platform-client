@@ -19,13 +19,15 @@ const initialState = {
 
 function reducer(state, action) {
   const { type, payload, fromCurrency = baseCurrency } = action;
+  const payloadOrDefault = store =>
+    payload !== undefined ? payload : state[store];
 
   switch (type) {
     case 'storeUserBalance':
       return {
         ...state,
         userBalance: convert(
-          payload || state.userBalance,
+          payloadOrDefault('userBalance'),
           fromCurrency,
           state.currency,
         ),
@@ -35,7 +37,7 @@ function reducer(state, action) {
       return {
         ...state,
         marketStocks: convertMarketStocks(
-          payload || state.marketStocks,
+          payloadOrDefault('marketStocks'),
           fromCurrency,
           state.currency,
         ),
@@ -45,7 +47,7 @@ function reducer(state, action) {
       return {
         ...state,
         userStocks: convertUserStocks(
-          payload || state.userStocks,
+          payloadOrDefault('userStocks'),
           fromCurrency,
           state.currency,
         ),
@@ -55,7 +57,7 @@ function reducer(state, action) {
       return {
         ...state,
         userStocksValue: convert(
-          payload || state.userStocksValue,
+          payloadOrDefault('userStocksValue'),
           fromCurrency,
           state.currency,
         ),
