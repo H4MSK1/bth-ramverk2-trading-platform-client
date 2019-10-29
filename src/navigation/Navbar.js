@@ -30,7 +30,10 @@ const Navbar = ({ isOpen = false }) => {
           exact={exact}
           to={to}
           activeClassName="active"
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            window.scrollTo(0, 0);
+          }}
         >
           {name}
         </NavLink>
