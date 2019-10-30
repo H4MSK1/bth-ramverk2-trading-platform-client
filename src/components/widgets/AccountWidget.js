@@ -5,7 +5,7 @@ import { formatDateTime } from 'api/utils';
 
 const AccountWidget = () => {
   const user = AuthService.user();
-  return (
+  return user ? (
     <Jumbotron className="bg-secondary box-shadow text-primary widget-box">
       <h5>
         <b>Your account</b>
@@ -22,7 +22,7 @@ const AccountWidget = () => {
         </b>
       </h6>
     </Jumbotron>
-  );
+  ) : null;
 };
 
 export default AccountWidget;

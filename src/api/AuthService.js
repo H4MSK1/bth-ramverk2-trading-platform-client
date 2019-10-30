@@ -2,10 +2,9 @@ import TokenService from './TokenService';
 import jwt_decode from 'jwt-decode';
 
 const AuthService = {
-  isAuth: () =>
-    TokenService.getAccessToken() &&
-    TokenService.getAccessToken().length &&
-    !TokenService.isTokenExpired(),
+  isAuth: () => {
+    return !(!TokenService.getAccessToken() || TokenService.isTokenExpired());
+  },
   logout: () => TokenService.removeTokens(),
   login: token => {
     const _t = new Date();

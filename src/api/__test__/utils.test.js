@@ -1,5 +1,6 @@
-import TokenService from './TokenService';
-import { onlyAuth, onlyGuest } from './utils';
+import TokenService from '../TokenService';
+import { onlyAuth, onlyGuest } from '../utils';
+import AuthService from '../AuthService';
 
 describe('api/utils', () => {
   afterEach(() => {
@@ -7,7 +8,7 @@ describe('api/utils', () => {
   });
 
   it('should only return value if authenticated', () => {
-    TokenService.setAccessToken('token');
+    jest.spyOn(AuthService, 'isAuth').mockImplementationOnce(() => true);
 
     const expected = 1;
     const result = onlyAuth(() => expected);
@@ -15,18 +16,22 @@ describe('api/utils', () => {
   });
 
   it('should return null if not authenticated', () => {
+    jest.spyOn(AuthService, 'isAuth').mockImplementationOnce(() => false);
+
     const result = onlyAuth(() => 1);
     expect(result).toBeNull();
   });
 
   it('should only return value if unauthenticated', () => {
+    jest.spyOn(AuthService, 'isAuth').mockImplementationOnce(() => false);
+
     const expected = 1;
     const result = onlyGuest(() => expected);
     expect(result).toBe(expected);
   });
 
   it('should return null if authenticated', () => {
-    TokenService.setAccessToken('token');
+    jest.spyOn(AuthService, 'isAuth').mockImplementationOnce(() => true);
 
     const result = onlyGuest(() => 1);
     expect(result).toBeNull();
